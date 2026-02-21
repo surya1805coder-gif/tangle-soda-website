@@ -50,6 +50,23 @@ app.get('/api/flavors', (req, res) => {
   }
 });
 
+// GET /api/flavors/:id
+app.get('/api/flavors/:id', (req, res) => {
+  try {
+    const flavor = db.prepare('SELECT * FROM flavors WHERE id = ?').get(req.params.id);
+    if (!flavor) {
+      return res.status(404).json({ success: false, error: 'Flavor not found' });
+    }
+    res.json({ success: true, data: flavor });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch flavor',
+      message: error.message
+    });
+  }
+});
+
 // GET /api/products
 app.get('/api/products', (req, res) => {
   try {
@@ -106,7 +123,7 @@ app.get('/api/cart/:sessionId', (req, res) => {
   try {
     const sessionId = req.params.sessionId;
     const cartItems = db.prepare(`
-      SELECT c.id, c.quantity, f.id as flavor_id, f.flavor_name, f.color_hex, f.image_url, p.name as product_name
+      SELECT c.id, c.quantity, f.id as flavor_id, f.flavor_name, f.color_hex, f.image_url, f.price, p.name as product_name
       FROM cart c
       JOIN flavors f ON c.flavor_id = f.id
       JOIN products p ON f.product_id = p.id

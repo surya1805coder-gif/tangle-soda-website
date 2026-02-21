@@ -1,35 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { CartProvider } from './context/CartContext';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import Home from './pages/Home';
+import Flavors from './pages/Flavors';
+import FlavorDetail from './pages/FlavorDetail';
+import Cart from './pages/Cart';
+import Checkout from './pages/Checkout';
+import OrderConfirmation from './pages/OrderConfirmation';
+import './App.css';
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <CartProvider>
+      <BrowserRouter>
+        <Navbar />
+        <main>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/flavors" element={<Flavors />} />
+            <Route path="/flavors/:id" element={<FlavorDetail />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/orders/:id" element={<OrderConfirmation />} />
+            {/* 404 fallback */}
+            <Route path="*" element={
+              <div style={{ textAlign: 'center', padding: '160px 24px 80px' }}>
+                <div style={{ fontSize: '4rem', marginBottom: '16px' }}>⚡</div>
+                <h1 style={{ fontSize: '5rem', fontWeight: 900, color: '#FF4500' }}>404</h1>
+                <p style={{ color: 'rgba(255,255,255,0.5)', marginBottom: '24px' }}>
+                  This page got tangled up somewhere...
+                </p>
+                <a href="/" className="btn btn-primary">Go Home</a>
+              </div>
+            } />
+          </Routes>
+        </main>
+        <Footer />
+      </BrowserRouter>
+    </CartProvider>
+  );
 }
-
-export default App

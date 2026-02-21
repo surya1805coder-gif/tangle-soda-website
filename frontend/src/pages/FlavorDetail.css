@@ -1,0 +1,269 @@
+.flavor-detail-page {
+    padding-top: 80px;
+    min-height: 100vh;
+}
+
+.fd-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    background: radial-gradient(ellipse at 30% 30%, color-mix(in srgb, var(--fcolor) 10%, transparent) 0%, transparent 55%);
+    pointer-events: none;
+    transition: background 0.8s ease;
+    z-index: 0;
+}
+
+.fd-inner {
+    position: relative;
+    z-index: 1;
+    padding-top: 20px;
+    padding-bottom: 80px;
+}
+
+.fd-back {
+    padding: 8px 0;
+    margin-bottom: 32px;
+    display: inline-flex;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.fd-back:hover {
+    color: white;
+}
+
+.fd-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    min-height: 580px;
+}
+
+.fd-canvas-wrap {
+    position: relative;
+}
+
+.fd-canvas-glow {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    filter: blur(60px);
+    opacity: 0.5;
+}
+
+.fd-canvas-hint {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.25);
+    font-size: 0.8rem;
+    margin-top: 8px;
+}
+
+.fd-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.fd-icon {
+    font-size: 2.5rem;
+}
+
+.fd-badge {
+    width: fit-content;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+}
+
+.fd-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 900;
+    color: white;
+    margin: 0;
+    line-height: 1.1;
+}
+
+.fd-desc {
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.8;
+    font-size: 0.95rem;
+}
+
+.fd-specs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 20px;
+}
+
+.fd-spec {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.fd-spec__icon {
+    font-size: 1.2rem;
+}
+
+.fd-spec__val {
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.fd-spec__label {
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.fd-price {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+}
+
+.fd-price__amount {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: white;
+}
+
+.fd-price__note {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.85rem;
+}
+
+.fd-quantity {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.fd-quantity__label {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.fd-qty-controls {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    overflow: hidden;
+}
+
+.fd-qty-btn {
+    background: none;
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fd-qty-btn:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.fd-qty-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.fd-qty-val {
+    min-width: 36px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.fd-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.fd-add-btn {
+    flex: 1;
+    min-width: 200px;
+}
+
+.fd-highlights {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.fd-highlight {
+    padding: 6px 14px;
+    border-radius: 50px;
+    border: 1px solid;
+    font-size: 0.82rem;
+    font-weight: 500;
+}
+
+/* Related */
+.fd-related {
+    margin-top: 80px;
+}
+
+.fd-related__title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+}
+
+.fd-related__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 600px;
+}
+
+.fd-related-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    overflow: hidden;
+}
+
+.fd-related-card:hover {
+    border-color: var(--fcolor) !important;
+}
+
+@media (max-width: 900px) {
+    .fd-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .fd-related__grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .fd-layout {
+        gap: 32px;
+    }
+
+    .fd-specs {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .fd-related__grid {
+        grid-template-columns: 1fr;
+        max-width: 100%;
+    }
+}

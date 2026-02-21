@@ -1,0 +1,235 @@
+.flavors-page {
+    padding-top: 80px;
+}
+
+.flavors-hero {
+    position: relative;
+    padding: 80px 0 60px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.flavors-hero__glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(255, 69, 0, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.flavors-hero__title {
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    background: linear-gradient(135deg, #fff, rgba(255, 255, 255, 0.6));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 16px;
+}
+
+.flavors-hero__desc {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 1.1rem;
+    max-width: 480px;
+    margin: 0 auto;
+    line-height: 1.7;
+}
+
+.flavors-loading {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+}
+
+/* Detail cards - alternating layout */
+.flavors-list {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.flavor-detail-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    overflow: hidden;
+    min-height: 460px;
+    position: relative;
+    transition: box-shadow 0.3s ease;
+}
+
+.flavor-detail-card:hover {
+    box-shadow: 0 0 60px color-mix(in srgb, var(--fcolor) 20%, transparent);
+}
+
+.flavor-detail-card.reverse {
+    direction: rtl;
+}
+
+.flavor-detail-card.reverse>* {
+    direction: ltr;
+}
+
+.flavor-detail-card__canvas {
+    position: relative;
+    min-height: 380px;
+}
+
+.flavor-detail-card__glow {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    filter: blur(60px);
+    opacity: 0.5;
+}
+
+.flavor-detail-card__info {
+    padding: 48px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
+}
+
+.flavor-detail-card__icon {
+    font-size: 2.4rem;
+}
+
+.flavor-detail-card__name {
+    font-size: 2rem;
+    font-weight: 800;
+    color: white;
+    margin: 0;
+}
+
+.flavor-detail-card__color-bar {
+    height: 3px;
+    border-radius: 2px;
+    width: 60px;
+}
+
+.flavor-detail-card__desc {
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.7;
+    font-size: 0.95rem;
+}
+
+.flavor-detail-card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.flavor-tag {
+    padding: 4px 14px;
+    border-radius: 50px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+}
+
+.flavor-detail-card__stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.flavor-stat {
+    text-align: center;
+}
+
+.flavor-stat__val {
+    font-size: 1.2rem;
+    font-weight: 800;
+}
+
+.flavor-stat__label {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 2px;
+}
+
+.flavor-lightning-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.85rem;
+}
+
+/* Compare table */
+.compare-table {
+    overflow-x: auto;
+    border-radius: 16px;
+}
+
+.compare-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.compare-table th {
+    padding: 16px 20px;
+    text-align: left;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.35);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.compare-table td {
+    padding: 18px 20px;
+    color: rgba(255, 255, 255, 0.75);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.compare-table tr:last-child td {
+    border-bottom: none;
+}
+
+.compare-table tr:hover td {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.intensity-bar {
+    width: 100px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.intensity-bar__fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.5s ease;
+}
+
+@media (max-width: 768px) {
+    .flavor-detail-card {
+        grid-template-columns: 1fr;
+    }
+
+    .flavor-detail-card.reverse {
+        direction: ltr;
+    }
+
+    .flavor-detail-card__canvas {
+        min-height: 280px;
+    }
+
+    .flavor-detail-card__info {
+        padding: 28px 24px;
+    }
+
+    .flavor-detail-card__stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
