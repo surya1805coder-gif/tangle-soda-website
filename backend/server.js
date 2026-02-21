@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const db = require('./config/database-sqlite');
+const ordersRouter = require('./routes/orders');
 
 dotenv.config();
 
@@ -11,6 +12,9 @@ const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
+
+// Mount routers
+app.use('/api/orders', ordersRouter);
 
 // GET /
 app.get('/', (req, res) => {
