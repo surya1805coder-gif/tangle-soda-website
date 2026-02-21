@@ -19,8 +19,124 @@ const FLAVOR_CONFIGS = {
         secondary: 0xFFAA00,
         lightning: 0xFFFF99,
         particles: 0xFFEE44,
+        fruitIcon: '🍋',
     },
 };
+
+function createDroplets(group, count = 40) {
+    const droplets = new THREE.Group();
+    const dropletGeo = new THREE.SphereGeometry(0.012, 8, 8);
+    const dropletMat = new THREE.MeshStandardMaterial({
+        color: 0xffffff,
+        transparent: true,
+        opacity: 0.6,
+        metalness: 0.1,
+        roughness: 0.1,
+    });
+
+    for (let i = 0; i < count; i++) {
+        const theta = Math.random() * Math.PI * 2;
+        const h = (Math.random() - 0.5) * 1.8;
+        const droplet = new THREE.Mesh(dropletGeo, dropletMat);
+        droplet.position.set(
+            Math.cos(theta) * 0.555,
+            h,
+            Math.sin(theta) * 0.555
+        );
+        droplet.scale.set(1, 0.5 + Math.random(), 1);
+        droplets.add(droplet);
+    }
+    group.add(droplets);
+    return droplets;
+}
+
+function createFruits(scene, config) {
+    const fruits = new THREE.Group();
+    // Using simple spheres as placeholders for fruits, colored by flavor
+    const fruitGeo = new THREE.TorusGeometry(0.15, 0.05, 12, 24);
+    const fruitMat = new THREE.MeshStandardMaterial({
+        color: config.primary,
+        emissive: config.primary,
+        emissiveIntensity: 0.5,
+    });
+
+    for (let i = 0; i < 4; i++) {
+        const f = new THREE.Mesh(fruitGeo, fruitMat);
+        const angle = (i / 4) * Math.PI * 2;
+        const radius = 1.8 + Math.random() * 0.5;
+        f.position.set(Math.cos(angle) * radius, (Math.random() - 0.5) * 2, Math.sin(angle) * radius);
+        f.rotation.set(Math.random() * 10, Math.random() * 10, Math.random() * 10);
+        fruits.add(f);
+    }
+    scene.add(fruits);
+    return fruits;
+}
+
+function createProceduralLabel(config) {
+    const canvas = document.createElement('canvas');
+    canvas.width = 512;
+    canvas.height = 512;
+    const ctx = canvas.getContext('2d');
+
+    // Background gradient
+    const grad = ctx.createLinearGradient(0, 0, 512, 0);
+    grad.addColorStop(0, '#' + config.primary.toString(16).padStart(6, '0'));
+    grad.addColorStop(0.5, '#' + config.secondary.toString(16).padStart(6, '0'));
+    grad.addColorStop(1, '#' + config.primary.toString(16).padStart(6, '0'));
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 512, 512);
+
+    // Electric motifs (lines)
+    ctx.strokeStyle = 'white';
+    ctx.lineWidth = 2;
+    for (let i = 0; i < 20; i++) {
+        ctx.beginPath();
+        ctx.moveTo(Math.random() * 512, 0);
+        ctx.lineTo(Math.random() * 512, 512);
+        ctx.stroke();
+    }
+
+    // Logo
+    ctx.fillStyle = '#0044BB';
+    ctx.font = 'bold 90px Arial';
+    ctx.textAlign = 'center';
+    ctx.shadowColor = 'black';
+    ctx.shadowBlur = 15;
+    ctx.fillText('TANGLE', 256, 256);
+
+    // Flavor Text
+    ctx.fillStyle = 'white';
+    ctx.font = '30px Arial';
+    ctx.fillText('EXTREME ENERGY', 256, 320);
+
+    return new THREE.CanvasTexture(canvas);
+}
+
+function createSplash(scene, config) {
+    const count = 30;
+    const geo = new THREE.SphereGeometry(0.04, 6, 6);
+    const mat = new THREE.MeshStandardMaterial({
+        color: config.primary,
+        transparent: true,
+        opacity: 0.8,
+        emissive: config.primary,
+        emissiveIntensity: 0.5,
+    });
+
+    const splashes = new THREE.Group();
+    for (let i = 0; i < count; i++) {
+        const s = new THREE.Mesh(geo, mat);
+        s.position.set((Math.random() - 0.5) * 0.5, 0, (Math.random() - 0.5) * 0.5);
+        s.userData.velocity = new THREE.Vector3(
+            (Math.random() - 0.5) * 0.1,
+            0.15 + Math.random() * 0.2,
+            (Math.random() - 0.5) * 0.1
+        );
+        splashes.add(s);
+    }
+    scene.add(splashes);
+    return splashes;
+}
 
 function createCanGeometry(scene, config) {
     const group = new THREE.Group();
@@ -29,11 +145,13 @@ function createCanGeometry(scene, config) {
     const bodyGeo = new THREE.CylinderGeometry(0.55, 0.55, 2, 48, 1);
     const bodyMat = new THREE.MeshStandardMaterial({
         color: config.primary,
-        metalness: 0.85,
-        roughness: 0.12,
+        metalness: 0.95,
+        roughness: 0.05,
     });
     const body = new THREE.Mesh(bodyGeo, bodyMat);
     group.add(body);
+
+    createDroplets(group);
 
     // CAN TOP
     const metalMat = new THREE.MeshStandardMaterial({ color: 0xcccccc, metalness: 0.95, roughness: 0.08 });
@@ -55,10 +173,11 @@ function createCanGeometry(scene, config) {
     group.add(tab);
 
     // LABEL BAND
+    const labelTexture = createProceduralLabel(config);
     const labelMat = new THREE.MeshStandardMaterial({
-        color: config.secondary,
-        metalness: 0.4, roughness: 0.4,
-        transparent: true, opacity: 0.85, side: THREE.FrontSide,
+        map: labelTexture,
+        metalness: 0.1, roughness: 0.5,
+        side: THREE.DoubleSide,
     });
     const label = new THREE.Mesh(new THREE.CylinderGeometry(0.552, 0.552, 1.6, 48, 1, true), labelMat);
     label.position.y = -0.1;
@@ -92,11 +211,24 @@ function createLightning(scene, config) {
             z = Math.sin(angle) * (0.6 + (j / 4) * (radius - 0.6)) + (Math.random() - 0.5) * 0.4;
             points.push(new THREE.Vector3(x, y, z));
         }
+
+        // Creating a "glow" effect by drawing multiple lines or using a thicker geometry
         const geo = new THREE.BufferGeometry().setFromPoints(points);
-        const mat = new THREE.LineBasicMaterial({ color: config.lightning, transparent: true, opacity: 0.8 });
+        const mat = new THREE.LineBasicMaterial({
+            color: config.lightning,
+            transparent: true,
+            opacity: 0.9,
+            linewidth: 2, // Only works on some drivers, but good as fallback
+        });
         const bolt = new THREE.Line(geo, mat);
+
+        // Add an emissive point light at some points of the bolt for localized glow
+        const glowLight = new THREE.PointLight(config.lightning, 0.8, 0.8);
+        glowLight.position.copy(points[Math.floor(points.length / 2)]);
+        bolt.add(glowLight);
+
         scene.add(bolt);
-        bolts.push({ bolt, baseOpacity: 0.6 + Math.random() * 0.4 });
+        bolts.push({ bolt, baseOpacity: 0.7 + Math.random() * 0.3, points });
     }
     return bolts;
 }
@@ -171,6 +303,8 @@ export default function ThreeJsCanvas({ flavor = 'Orange', interactive = false, 
         // Objects
         const canGroup = createCanGeometry(scene, config);
         const bolts = createLightning(scene, config);
+        const fruits = createFruits(scene, config);
+        const splashes = createSplash(scene, config);
         const { particles, velocities } = createParticles(scene, config);
 
         // Glow ring on ground
@@ -213,6 +347,21 @@ export default function ThreeJsCanvas({ flavor = 'Orange', interactive = false, 
 
             canGroup.rotation.y += 0.008;
             canGroup.position.y = Math.sin(time * 0.7) * 0.12;
+
+            fruits.rotation.y -= 0.01;
+            fruits.children.forEach((f, i) => {
+                f.rotation.x += 0.02;
+                f.position.y += Math.sin(time + i) * 0.005;
+            });
+
+            splashes.children.forEach(s => {
+                s.position.add(s.userData.velocity);
+                s.userData.velocity.y -= 0.01; // gravity
+                if (s.position.y < -1.5) {
+                    s.position.set((Math.random() - 0.5) * 0.2, 1, (Math.random() - 0.5) * 0.2);
+                    s.userData.velocity.y = 0.15 + Math.random() * 0.15;
+                }
+            });
 
             if (interactive) {
                 mouse.x += (mouse.targetX - mouse.x) * 0.05;
