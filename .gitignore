@@ -33,3 +33,7 @@ yarn-error.log*
 # Database
 *.db
 *.sqlite
+
+# Temporary files from debugging
+*.log
+tmpclaude*

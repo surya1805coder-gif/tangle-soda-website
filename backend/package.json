@@ -8,6 +8,7 @@
     "dev": "node --watch server.js",
     "setup-db": "node scripts/setupDatabase.js",
     "setup-db-sqlite": "node scripts/setupDatabaseSQLite.js",
+    "generate-models": "node scripts/generateCanModels.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -23,6 +24,7 @@
     "jsonwebtoken": "^9.0.3",
     "pg": "^8.18.0",
     "sqlite3": "^5.1.7",
-    "stripe": "^20.3.1"
+    "stripe": "^20.3.1",
+    "three": "^r128"
   }
 }
