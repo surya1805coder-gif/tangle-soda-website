@@ -1,0 +1,4 @@
+✅ Connected to SQLite: C:\Users\udhya\OneDrive\Videos\Movavi Screen Recorder\coding\tangle-soda-website\backend\data\tangle.db
+[dotenv@17.3.1] injecting env (12) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+✅ Tangle Backend Server running on port 5000
+📡 URL: http://localhost:5000
