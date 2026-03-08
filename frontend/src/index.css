@@ -116,6 +116,31 @@ h1, h2, h3, h4, h5, h6 { font-weight: 700; line-height: 1.15; }
   background-clip: text;
 }
 
+/* ===== SKIP LINK ===== */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--orange);
+  color: white;
+  padding: 12px 24px;
+  z-index: 1000;
+  transition: top 0.3s ease;
+  font-weight: 600;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+.skip-link:focus {
+  top: 0;
+}
+
+/* ===== ACCESSIBILITY: FOCUS VISIBLE ===== */
+*:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 4px;
+}
+
 /* ===== BUTTONS ===== */
 .btn {
   display: inline-flex;

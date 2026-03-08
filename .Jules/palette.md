@@ -1,0 +1,3 @@
+## 2025-05-15 - [Global Accessibility & Dynamic Controls]
+**Learning:** For high-contrast dark themes like Tangle's, standard browser focus outlines are often invisible. Using a themed `*:focus-visible` outline (e.g., `2px solid var(--orange)`) ensures keyboard navigation is both accessible and visually integrated. Additionally, in list-based UIs like carts, `aria-label`s for repeated controls (increment/decrement) must be context-aware (including the item name) to be meaningful for screen reader users.
+**Action:** Always check focus visibility on dark backgrounds and use dynamic ARIA labels for repetitive list controls.
