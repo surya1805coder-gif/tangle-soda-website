@@ -14,8 +14,9 @@ export default function App() {
   return (
     <CartProvider>
       <BrowserRouter>
+        <a href="#main-content" className="skip-link">Skip to Content</a>
         <Navbar />
-        <main>
+        <main id="main-content">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/flavors" element={<Flavors />} />
