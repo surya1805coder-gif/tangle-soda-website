@@ -123,9 +123,23 @@ export default function FlavorDetail() {
                         <div className="fd-quantity">
                             <span className="fd-quantity__label">Quantity</span>
                             <div className="fd-qty-controls">
-                                <button className="fd-qty-btn" onClick={() => setQuantity(q => Math.max(1, q - 1))} disabled={quantity <= 1}>−</button>
+                                <button
+                                    className="fd-qty-btn"
+                                    onClick={() => setQuantity(q => Math.max(1, q - 1))}
+                                    disabled={quantity <= 1}
+                                    aria-label="Decrease quantity"
+                                >
+                                    −
+                                </button>
                                 <span className="fd-qty-val">{quantity}</span>
-                                <button className="fd-qty-btn" onClick={() => setQuantity(q => Math.min(12, q + 1))} disabled={quantity >= 12}>+</button>
+                                <button
+                                    className="fd-qty-btn"
+                                    onClick={() => setQuantity(q => Math.min(12, q + 1))}
+                                    disabled={quantity >= 12}
+                                    aria-label="Increase quantity"
+                                >
+                                    +
+                                </button>
                             </div>
                         </div>
 
