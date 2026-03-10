@@ -18,9 +18,13 @@ export default function Footer() {
                             Three flavors. One obsession.
                         </p>
                         <div className="footer__socials">
-                            {['𝕏', '📸', '🎵'].map((icon, i) => (
-                                <a key={i} href="#" className="footer__social-icon" aria-label={`Social ${i + 1}`}>
-                                    {icon}
+                            {[
+                                { icon: '𝕏', label: 'X' },
+                                { icon: '📸', label: 'Instagram' },
+                                { icon: '🎵', label: 'TikTok' }
+                            ].map((social, i) => (
+                                <a key={i} href="#" className="footer__social-icon" aria-label={social.label}>
+                                    {social.icon}
                                 </a>
                             ))}
                         </div>
