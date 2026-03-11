@@ -38,7 +38,7 @@ export default function Checkout() {
             });
             clearCart();
             navigate(`/orders/${res.data.data.orderId}`);
-        } catch (err) {
+        } catch {
             alert('Order failed. Please try again.');
         } finally {
             setSubmitting(false);

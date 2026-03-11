@@ -63,6 +63,8 @@ export default function Navbar() {
                         className={`navbar__hamburger ${menuOpen ? 'open' : ''}`}
                         onClick={() => setMenuOpen(!menuOpen)}
                         aria-label="Toggle menu"
+                        aria-expanded={menuOpen}
+                        aria-controls="mobile-menu"
                     >
                         <span /><span /><span />
                     </button>
@@ -70,7 +72,7 @@ export default function Navbar() {
             </div>
 
             {/* Mobile Menu */}
-            <div className={`navbar__mobile-menu ${menuOpen ? 'open' : ''}`}>
+            <div id="mobile-menu" className={`navbar__mobile-menu ${menuOpen ? 'open' : ''}`}>
                 {navLinks.map(link => (
                     <Link key={link.path} to={link.path} className="navbar__mobile-link">
                         {link.label}
