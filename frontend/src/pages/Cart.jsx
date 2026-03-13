@@ -37,7 +37,7 @@ export default function Cart() {
 
     const shipping = 0; // Free shipping
     const tax = cartTotal * 0.08;
-    const orderTotal = cartTotal + tax;
+    const orderTotal = cartTotal + shipping + tax;
 
     return (
         <div className="cart-page page-enter">
@@ -72,12 +72,14 @@ export default function Cart() {
                                         <button
                                             className="cart-qty-btn"
                                             onClick={() => item.quantity > 1 ? updateItem(item.id, item.quantity - 1) : removeItem(item.id)}
+                                            aria-label="Decrease quantity"
                                         >−</button>
-                                        <span className="cart-qty-val">{item.quantity}</span>
+                                        <span className="cart-qty-val" aria-live="polite" aria-atomic="true">{item.quantity}</span>
                                         <button
                                             className="cart-qty-btn"
                                             onClick={() => updateItem(item.id, item.quantity + 1)}
                                             disabled={item.quantity >= 12}
+                                            aria-label="Increase quantity"
                                         >+</button>
                                     </div>
 
