@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import ThreeJsCanvas from '../components/ThreeJsCanvas';
-import { getFlavorById, getFlavors } from '../api/client';
+import { getFlavorById } from '../api/client';
 import { useCart } from '../context/CartContext';
 import './FlavorDetail.css';
 
@@ -14,7 +14,7 @@ const FLAVORS_STATIC = {
 export default function FlavorDetail() {
     const { id } = useParams();
     const { addItem, cartCount } = useCart();
-    const [flavor, setFlavor] = useState(null);
+    const [flavor, setFlavor] = useState(() => ({ id: parseInt(id), ...(FLAVORS_STATIC[parseInt(id)] || FLAVORS_STATIC[1]) }));
     const [loading, setLoading] = useState(true);
     const [quantity, setQuantity] = useState(1);
     const [adding, setAdding] = useState(false);
@@ -22,7 +22,6 @@ export default function FlavorDetail() {
 
     useEffect(() => {
         const staticData = FLAVORS_STATIC[parseInt(id)] || FLAVORS_STATIC[1];
-        setFlavor({ id: parseInt(id), ...staticData });
 
         getFlavorById(id)
             .then(res => {
@@ -123,9 +122,9 @@ export default function FlavorDetail() {
                         <div className="fd-quantity">
                             <span className="fd-quantity__label">Quantity</span>
                             <div className="fd-qty-controls">
-                                <button className="fd-qty-btn" onClick={() => setQuantity(q => Math.max(1, q - 1))} disabled={quantity <= 1}>−</button>
-                                <span className="fd-qty-val">{quantity}</span>
-                                <button className="fd-qty-btn" onClick={() => setQuantity(q => Math.min(12, q + 1))} disabled={quantity >= 12}>+</button>
+                                <button className="fd-qty-btn" onClick={() => setQuantity(q => Math.max(1, q - 1))} disabled={quantity <= 1} aria-label="Decrease quantity">−</button>
+                                <span className="fd-qty-val" aria-live="polite" aria-atomic="true">{quantity}</span>
+                                <button className="fd-qty-btn" onClick={() => setQuantity(q => Math.min(12, q + 1))} disabled={quantity >= 12} aria-label="Increase quantity">+</button>
                             </div>
                         </div>
 
