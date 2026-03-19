@@ -71,11 +71,13 @@ export default function Cart() {
                                     <div className="cart-item__controls">
                                         <button
                                             className="cart-qty-btn"
+                                            aria-label="Decrease quantity"
                                             onClick={() => item.quantity > 1 ? updateItem(item.id, item.quantity - 1) : removeItem(item.id)}
                                         >−</button>
-                                        <span className="cart-qty-val">{item.quantity}</span>
+                                        <span className="cart-qty-val" aria-live="polite">{item.quantity}</span>
                                         <button
                                             className="cart-qty-btn"
+                                            aria-label="Increase quantity"
                                             onClick={() => updateItem(item.id, item.quantity + 1)}
                                             disabled={item.quantity >= 12}
                                         >+</button>
