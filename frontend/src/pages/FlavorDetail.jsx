@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import ThreeJsCanvas from '../components/ThreeJsCanvas';
-import { getFlavorById, getFlavors } from '../api/client';
+import { getFlavorById } from '../api/client';
 import { useCart } from '../context/CartContext';
 import './FlavorDetail.css';
 
@@ -14,29 +14,30 @@ const FLAVORS_STATIC = {
 export default function FlavorDetail() {
     const { id } = useParams();
     const { addItem, cartCount } = useCart();
-    const [flavor, setFlavor] = useState(null);
+    const [flavor, setFlavor] = useState(() => {
+        const staticData = FLAVORS_STATIC[parseInt(id)] || FLAVORS_STATIC[1];
+        return { id: parseInt(id), ...staticData };
+    });
     const [loading, setLoading] = useState(true);
     const [quantity, setQuantity] = useState(1);
     const [adding, setAdding] = useState(false);
     const [added, setAdded] = useState(false);
 
     useEffect(() => {
-        const staticData = FLAVORS_STATIC[parseInt(id)] || FLAVORS_STATIC[1];
-        setFlavor({ id: parseInt(id), ...staticData });
-
+        const defaultData = FLAVORS_STATIC[parseInt(id)] || FLAVORS_STATIC[1];
         getFlavorById(id)
             .then(res => {
                 if (res.data.data) {
                     const apiF = res.data.data;
                     // Parse tags JSON string from DB
-                    const tags = typeof apiF.tags === 'string' ? JSON.parse(apiF.tags || '[]') : (apiF.tags || staticData.tags || []);
+                    const tags = typeof apiF.tags === 'string' ? JSON.parse(apiF.tags || '[]') : (apiF.tags || defaultData.tags || []);
                     setFlavor(prev => ({
                         ...prev,
                         ...apiF,
                         tags,
-                        icon: apiF.icon || staticData.icon,
-                        description: apiF.description || staticData.description,
-                        lightning: apiF.lightning || staticData.lightning,
+                        icon: apiF.icon || defaultData.icon,
+                        description: apiF.description || defaultData.description,
+                        lightning: apiF.lightning || defaultData.lightning,
                     }));
                 }
             })
