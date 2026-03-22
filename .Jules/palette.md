@@ -1,0 +1,3 @@
+## 2025-05-14 - Manual Scroll Restoration in SPAs
+**Learning:** In Single Page Applications (SPAs) with global `scroll-behavior: smooth`, standard navigation does not always reset the scroll position to the top. To ensure a consistent and predictable user experience, a dedicated `ScrollToTop` component using `window.scrollTo({ top: 0, left: 0, behavior: 'instant' })` is necessary. It should respond to both `pathname` and `search` changes to handle pagination and filtering.
+**Action:** Always implement or verify a scroll restoration mechanism when building multi-page SPA experiences, especially when using global smooth scrolling.
