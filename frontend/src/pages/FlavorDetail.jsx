@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import ThreeJsCanvas from '../components/ThreeJsCanvas';
-import { getFlavorById, getFlavors } from '../api/client';
+import { getFlavorById } from '../api/client';
 import { useCart } from '../context/CartContext';
 import './FlavorDetail.css';
 

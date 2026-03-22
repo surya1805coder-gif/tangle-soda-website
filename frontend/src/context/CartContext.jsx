@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { getCart, addToCart, updateCartItem, removeCartItem } from '../api/client';
 
-const CartContext = createContext(null);
+export const CartContext = createContext(null);
 
 // Generate or retrieve a browser session ID
 function getSessionId() {
@@ -77,8 +77,8 @@ export function CartProvider({ children }) {
     );
 }
 
-export function useCart() {
+export const useCart = () => {
     const ctx = useContext(CartContext);
     if (!ctx) throw new Error('useCart must be used inside CartProvider');
     return ctx;
-}
+};
