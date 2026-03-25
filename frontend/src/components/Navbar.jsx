@@ -15,10 +15,6 @@ export default function Navbar() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    useEffect(() => {
-        setMenuOpen(false);
-    }, [location]);
-
     const navLinks = [
         { label: 'Home', path: '/' },
         { label: 'Flavors', path: '/flavors' },
@@ -28,7 +24,12 @@ export default function Navbar() {
         <nav className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`}>
             <div className="navbar__inner">
                 {/* Logo */}
-                <Link to="/" className="navbar__logo">
+                <Link
+                    to="/"
+                    className="navbar__logo"
+                    aria-label="Tangle Energy Home"
+                    onClick={() => setMenuOpen(false)}
+                >
                     <span className="navbar__logo-icon">⚡</span>
                     <span className="font-brand navbar__logo-text">TANGLE</span>
                 </Link>
@@ -40,6 +41,7 @@ export default function Navbar() {
                             key={link.path}
                             to={link.path}
                             className={`navbar__link ${location.pathname === link.path ? 'navbar__link--active' : ''}`}
+                            aria-current={location.pathname === link.path ? 'page' : undefined}
                         >
                             {link.label}
                         </Link>
@@ -63,6 +65,8 @@ export default function Navbar() {
                         className={`navbar__hamburger ${menuOpen ? 'open' : ''}`}
                         onClick={() => setMenuOpen(!menuOpen)}
                         aria-label="Toggle menu"
+                        aria-expanded={menuOpen}
+                        aria-controls="mobile-menu"
                     >
                         <span /><span /><span />
                     </button>
@@ -70,13 +74,26 @@ export default function Navbar() {
             </div>
 
             {/* Mobile Menu */}
-            <div className={`navbar__mobile-menu ${menuOpen ? 'open' : ''}`}>
+            <div
+                id="mobile-menu"
+                className={`navbar__mobile-menu ${menuOpen ? 'open' : ''}`}
+            >
                 {navLinks.map(link => (
-                    <Link key={link.path} to={link.path} className="navbar__mobile-link">
+                    <Link
+                        key={link.path}
+                        to={link.path}
+                        className="navbar__mobile-link"
+                        aria-current={location.pathname === link.path ? 'page' : undefined}
+                        onClick={() => setMenuOpen(false)}
+                    >
                         {link.label}
                     </Link>
                 ))}
-                <Link to="/cart" className="navbar__mobile-link">
+                <Link
+                    to="/cart"
+                    className="navbar__mobile-link"
+                    onClick={() => setMenuOpen(false)}
+                >
                     🛒 Cart {cartCount > 0 && `(${cartCount})`}
                 </Link>
             </div>
