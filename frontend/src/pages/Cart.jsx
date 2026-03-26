@@ -87,7 +87,11 @@ export default function Cart() {
                                     <div className="cart-item__total">${(item.quantity * 20).toFixed(2)}</div>
 
                                     {/* Remove */}
-                                    <button className="cart-item__remove btn btn-danger btn-sm" onClick={() => removeItem(item.id)}>
+                                    <button
+                                        className="cart-item__remove btn btn-danger btn-sm"
+                                        onClick={() => removeItem(item.id)}
+                                        aria-label={`Remove ${item.flavor_name} from cart`}
+                                    >
                                         Remove
                                     </button>
                                 </div>
