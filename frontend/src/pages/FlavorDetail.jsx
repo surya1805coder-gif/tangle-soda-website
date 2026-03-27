@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import ThreeJsCanvas from '../components/ThreeJsCanvas';
-import { getFlavorById, getFlavors } from '../api/client';
+import { getFlavorById } from '../api/client';
 import { useCart } from '../context/CartContext';
 import './FlavorDetail.css';
 
@@ -14,7 +14,10 @@ const FLAVORS_STATIC = {
 export default function FlavorDetail() {
     const { id } = useParams();
     const { addItem, cartCount } = useCart();
-    const [flavor, setFlavor] = useState(null);
+    const [flavor, setFlavor] = useState(() => {
+        const staticData = FLAVORS_STATIC[parseInt(id)] || FLAVORS_STATIC[1];
+        return { id: parseInt(id), ...staticData };
+    });
     const [loading, setLoading] = useState(true);
     const [quantity, setQuantity] = useState(1);
     const [adding, setAdding] = useState(false);
@@ -22,7 +25,6 @@ export default function FlavorDetail() {
 
     useEffect(() => {
         const staticData = FLAVORS_STATIC[parseInt(id)] || FLAVORS_STATIC[1];
-        setFlavor({ id: parseInt(id), ...staticData });
 
         getFlavorById(id)
             .then(res => {
