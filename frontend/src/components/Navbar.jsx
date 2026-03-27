@@ -15,18 +15,21 @@ export default function Navbar() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    useEffect(() => {
-        setMenuOpen(false);
-    }, [location]);
-
     const navLinks = [
         { label: 'Home', path: '/' },
         { label: 'Flavors', path: '/flavors' },
     ];
 
+    const closeMenu = () => setMenuOpen(false);
+
     return (
         <nav className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`}>
-            <div className="navbar__inner">
+            <div
+                className="navbar__inner"
+                onClick={(e) => {
+                    if (e.target.closest('a')) closeMenu();
+                }}
+            >
                 {/* Logo */}
                 <Link to="/" className="navbar__logo">
                     <span className="navbar__logo-icon">⚡</span>
@@ -70,7 +73,12 @@ export default function Navbar() {
             </div>
 
             {/* Mobile Menu */}
-            <div className={`navbar__mobile-menu ${menuOpen ? 'open' : ''}`}>
+            <div
+                className={`navbar__mobile-menu ${menuOpen ? 'open' : ''}`}
+                onClick={(e) => {
+                    if (e.target.closest('a')) closeMenu();
+                }}
+            >
                 {navLinks.map(link => (
                     <Link key={link.path} to={link.path} className="navbar__mobile-link">
                         {link.label}
