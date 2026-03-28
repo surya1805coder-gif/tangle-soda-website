@@ -38,7 +38,7 @@ export default function Checkout() {
             });
             clearCart();
             navigate(`/orders/${res.data.data.orderId}`);
-        } catch (err) {
+        } catch (_err) {
             alert('Order failed. Please try again.');
         } finally {
             setSubmitting(false);
@@ -70,7 +70,11 @@ export default function Checkout() {
                         {/* Step indicators */}
                         <div className="step-indicators">
                             {['Shipping', 'Payment', 'Review'].map((s, i) => (
-                                <div key={s} className={`step-indicator ${step > i + 1 ? 'done' : step === i + 1 ? 'active' : ''}`}>
+                                <div
+                                    key={s}
+                                    className={`step-indicator ${step > i + 1 ? 'done' : step === i + 1 ? 'active' : ''}`}
+                                    aria-current={step === i + 1 ? 'step' : undefined}
+                                >
                                     <div className="step-indicator__num">{step > i + 1 ? '✓' : i + 1}</div>
                                     <span>{s}</span>
                                 </div>
@@ -83,34 +87,34 @@ export default function Checkout() {
                                 <h2 className="checkout-form__title">📦 Shipping Information</h2>
                                 <div className="form-row">
                                     <div className="form-group">
-                                        <label className="form-label">First Name</label>
-                                        <input className="form-input" name="firstName" value={shipping.firstName} onChange={updateShipping} placeholder="John" required />
+                                        <label htmlFor="firstName" className="form-label">First Name</label>
+                                        <input id="firstName" className="form-input" name="firstName" value={shipping.firstName} onChange={updateShipping} placeholder="John" required />
                                     </div>
                                     <div className="form-group">
-                                        <label className="form-label">Last Name</label>
-                                        <input className="form-input" name="lastName" value={shipping.lastName} onChange={updateShipping} placeholder="Doe" required />
+                                        <label htmlFor="lastName" className="form-label">Last Name</label>
+                                        <input id="lastName" className="form-input" name="lastName" value={shipping.lastName} onChange={updateShipping} placeholder="Doe" required />
                                     </div>
                                 </div>
                                 <div className="form-group">
-                                    <label className="form-label">Email</label>
-                                    <input className="form-input" name="email" type="email" value={shipping.email} onChange={updateShipping} placeholder="john@example.com" required />
+                                    <label htmlFor="email" className="form-label">Email</label>
+                                    <input id="email" className="form-input" name="email" type="email" value={shipping.email} onChange={updateShipping} placeholder="john@example.com" required />
                                 </div>
                                 <div className="form-group">
-                                    <label className="form-label">Street Address</label>
-                                    <input className="form-input" name="address" value={shipping.address} onChange={updateShipping} placeholder="123 Main Street" required />
+                                    <label htmlFor="address" className="form-label">Street Address</label>
+                                    <input id="address" className="form-input" name="address" value={shipping.address} onChange={updateShipping} placeholder="123 Main Street" required />
                                 </div>
                                 <div className="form-row">
                                     <div className="form-group">
-                                        <label className="form-label">City</label>
-                                        <input className="form-input" name="city" value={shipping.city} onChange={updateShipping} placeholder="New York" required />
+                                        <label htmlFor="city" className="form-label">City</label>
+                                        <input id="city" className="form-input" name="city" value={shipping.city} onChange={updateShipping} placeholder="New York" required />
                                     </div>
                                     <div className="form-group">
-                                        <label className="form-label">State</label>
-                                        <input className="form-input" name="state" value={shipping.state} onChange={updateShipping} placeholder="NY" required />
+                                        <label htmlFor="state" className="form-label">State</label>
+                                        <input id="state" className="form-input" name="state" value={shipping.state} onChange={updateShipping} placeholder="NY" required />
                                     </div>
                                     <div className="form-group">
-                                        <label className="form-label">ZIP</label>
-                                        <input className="form-input" name="zip" value={shipping.zip} onChange={updateShipping} placeholder="10001" required />
+                                        <label htmlFor="zip" className="form-label">ZIP</label>
+                                        <input id="zip" className="form-input" name="zip" value={shipping.zip} onChange={updateShipping} placeholder="10001" required />
                                     </div>
                                 </div>
                                 <button
@@ -138,12 +142,13 @@ export default function Checkout() {
                                     </div>
                                 </div>
                                 <div className="form-group">
-                                    <label className="form-label">Name on Card</label>
-                                    <input className="form-input" name="cardName" value={payment.cardName} onChange={updatePayment} placeholder="John Doe" />
+                                    <label htmlFor="cardName" className="form-label">Name on Card</label>
+                                    <input id="cardName" className="form-input" name="cardName" value={payment.cardName} onChange={updatePayment} placeholder="John Doe" />
                                 </div>
                                 <div className="form-group">
-                                    <label className="form-label">Card Number</label>
+                                    <label htmlFor="cardNumber" className="form-label">Card Number</label>
                                     <input
+                                        id="cardNumber"
                                         className="form-input"
                                         name="cardNumber"
                                         value={payment.cardNumber}
@@ -157,12 +162,12 @@ export default function Checkout() {
                                 </div>
                                 <div className="form-row">
                                     <div className="form-group">
-                                        <label className="form-label">Expiry</label>
-                                        <input className="form-input" name="expiry" value={payment.expiry} onChange={updatePayment} placeholder="MM/YY" maxLength={5} />
+                                        <label htmlFor="expiry" className="form-label">Expiry</label>
+                                        <input id="expiry" className="form-input" name="expiry" value={payment.expiry} onChange={updatePayment} placeholder="MM/YY" maxLength={5} />
                                     </div>
                                     <div className="form-group">
-                                        <label className="form-label">CVV</label>
-                                        <input className="form-input" name="cvv" value={payment.cvv} onChange={updatePayment} placeholder="123" maxLength={4} type="password" />
+                                        <label htmlFor="cvv" className="form-label">CVV</label>
+                                        <input id="cvv" className="form-input" name="cvv" value={payment.cvv} onChange={updatePayment} placeholder="123" maxLength={4} type="password" />
                                     </div>
                                 </div>
                                 <div className="checkout-form__btns">
