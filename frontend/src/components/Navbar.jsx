@@ -15,9 +15,11 @@ export default function Navbar() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    useEffect(() => {
-        setMenuOpen(false);
-    }, [location]);
+    const handleNavClick = (e) => {
+        if (e.target.closest('a')) {
+            setMenuOpen(false);
+        }
+    };
 
     const navLinks = [
         { label: 'Home', path: '/' },
@@ -25,11 +27,11 @@ export default function Navbar() {
     ];
 
     return (
-        <nav className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`}>
+        <nav className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`} onClick={handleNavClick}>
             <div className="navbar__inner">
                 {/* Logo */}
-                <Link to="/" className="navbar__logo">
-                    <span className="navbar__logo-icon">⚡</span>
+                <Link to="/" className="navbar__logo" aria-label="Tangle Energy Home">
+                    <span className="navbar__logo-icon" aria-hidden="true">⚡</span>
                     <span className="font-brand navbar__logo-text">TANGLE</span>
                 </Link>
 
@@ -40,6 +42,7 @@ export default function Navbar() {
                             key={link.path}
                             to={link.path}
                             className={`navbar__link ${location.pathname === link.path ? 'navbar__link--active' : ''}`}
+                            aria-current={location.pathname === link.path ? 'page' : undefined}
                         >
                             {link.label}
                         </Link>
@@ -63,6 +66,8 @@ export default function Navbar() {
                         className={`navbar__hamburger ${menuOpen ? 'open' : ''}`}
                         onClick={() => setMenuOpen(!menuOpen)}
                         aria-label="Toggle menu"
+                        aria-expanded={menuOpen}
+                        aria-controls="mobile-menu"
                     >
                         <span /><span /><span />
                     </button>
@@ -70,14 +75,23 @@ export default function Navbar() {
             </div>
 
             {/* Mobile Menu */}
-            <div className={`navbar__mobile-menu ${menuOpen ? 'open' : ''}`}>
+            <div id="mobile-menu" className={`navbar__mobile-menu ${menuOpen ? 'open' : ''}`}>
                 {navLinks.map(link => (
-                    <Link key={link.path} to={link.path} className="navbar__mobile-link">
+                    <Link
+                        key={link.path}
+                        to={link.path}
+                        className={`navbar__mobile-link ${location.pathname === link.path ? 'navbar__mobile-link--active' : ''}`}
+                        aria-current={location.pathname === link.path ? 'page' : undefined}
+                    >
                         {link.label}
                     </Link>
                 ))}
-                <Link to="/cart" className="navbar__mobile-link">
-                    🛒 Cart {cartCount > 0 && `(${cartCount})`}
+                <Link
+                    to="/cart"
+                    className={`navbar__mobile-link ${location.pathname === '/cart' ? 'navbar__mobile-link--active' : ''}`}
+                    aria-current={location.pathname === '/cart' ? 'page' : undefined}
+                >
+                    <span aria-hidden="true">🛒</span> Cart {cartCount > 0 && `(${cartCount})`}
                 </Link>
             </div>
         </nav>

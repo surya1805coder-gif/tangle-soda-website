@@ -200,6 +200,11 @@
     color: white;
 }
 
+.navbar__mobile-link--active {
+    background: rgba(255, 69, 0, 0.12);
+    color: white;
+}
+
 @media (max-width: 768px) {
     .navbar__links {
         display: none;
