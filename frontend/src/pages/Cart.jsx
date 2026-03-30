@@ -35,7 +35,6 @@ export default function Cart() {
         );
     }
 
-    const shipping = 0; // Free shipping
     const tax = cartTotal * 0.08;
     const orderTotal = cartTotal + tax;
 
